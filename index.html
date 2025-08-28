@@ -152,15 +152,12 @@
 </head>
 <body class="bg-gray-900 text-gray-200">
 
-    <!-- Main Container -->
     <div id="main-dashboard" class="container mx-auto p-6 md:p-10">
-        <!-- Header -->
         <header class="text-center mb-12">
             <h1 class="4xl md:text-5xl font-bold header-bg text-transparent bg-clip-text pb-2">QuantumGuard</h1>
             <p class="text-lg md:text-xl text-gray-400 mt-2">The Future of Fraud Detection</p>
         </header>
 
-        <!-- Threat Intelligence Feed Panel -->
         <div class="card p-4 rounded-xl mb-6">
             <h2 class="text-xl font-bold mb-2 flex items-center">
                 <svg class="w-6 h-6 mr-2 text-red-400" fill="currentColor" viewBox="0 0 20 20">
@@ -178,7 +175,6 @@
             </div>
         </div>
 
-        <!-- Mode Selector -->
         <div class="flex justify-center mb-8 space-x-4">
             <button id="preloaded-data-btn" class="btn bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg">
                 Preloaded Data
@@ -191,10 +187,8 @@
             </button>
         </div>
 
-        <!-- Main Dashboard Grid -->
         <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <!-- Preloaded Data Panels -->
             <div id="preloaded-panels" class="contents">
                 <div class="card p-6 rounded-xl col-span-1">
                     <h2 class="text-xl font-bold mb-4 flex items-center">
@@ -307,7 +301,6 @@
                 </div>
             </div>
 
-            <!-- Real-time Input Panels -->
             <div id="realtime-panels" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
                 <div class="card p-6 rounded-xl col-span-1">
                     <h2 class="text-xl font-bold mb-4 flex items-center">
@@ -381,7 +374,6 @@
                 </div>
             </div>
 
-            <!-- Transcript Analyzer Panels -->
             <div id="analyzer-panels" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
                 <div class="card p-6 rounded-xl col-span-1">
                     <h2 class="text-xl font-bold mb-4 flex items-center">
@@ -458,7 +450,6 @@
                 </div>
             </div>
 
-            <!-- New High-Risk Profiles Panel -->
             <div id="high-risk-profiles-panel" class="card p-6 rounded-xl col-span-1">
                 <h2 class="text-xl font-bold mb-4 flex items-center">
                     <svg class="w-6 h-6 mr-2 text-red-400" fill="currentColor" viewBox="0 0 20 20">
@@ -471,7 +462,6 @@
                 </div>
             </div>
             
-            <!-- Common Log Panel -->
             <div class="card p-6 rounded-xl col-span-2">
                 <h2 class="text-xl font-bold mb-4 flex items-center">
                     <svg class="w-6 h-6 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
@@ -483,15 +473,26 @@
                     <p class="text-gray-500">Press 'Start Detection' to begin logging transactions.</p>
                 </div>
             </div>
+
+            <div class="card p-6 rounded-xl col-span-1 md:col-span-2 lg:col-span-1">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm8-7a7 7 0 00-6.194 3.428l5.894 5.894A2 2 0 0112 11.2V10a2 2 0 01-2-2zM4.306 14.572A7 7 0 0010 17a7 7 0 006.194-3.428L10 8.572V10a2 2 0 012-2h1.2l-.248.248a2 2 0 01-1.414 1.414L10 11.2V10a2 2 0 012 2z"></path>
+                    </svg>
+                    Transaction Distribution
+                </h2>
+                <div id="pie-chart-container" class="relative w-full h-64 flex items-center justify-center">
+                    <canvas id="pie-chart-canvas"></canvas>
+                    <p id="pie-chart-placeholder" class="text-gray-500 absolute">No transaction data available yet.</p>
+                </div>
+            </div>
         </main>
         
-        <!-- Real-time alert -->
         <div id="alert-box" class="alert-box">
             <p class="font-bold">🚨 FRAUD ALERT! 🚨</p>
             <p id="alert-message"></p>
         </div>
 
-        <!-- Transaction Details Modal -->
         <div id="modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden">
             <div class="bg-gray-800 p-8 rounded-xl max-w-lg w-full relative border border-indigo-700">
                 <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-200">
@@ -499,8 +500,7 @@
                 </button>
                 <h3 class="2xl font-bold mb-4 text-blue-300">Transaction Details</h3>
                 <div id="modal-content" class="space-y-3 text-gray-400">
-                    <!-- Details will be injected here -->
-                </div>
+                    </div>
 
                 <div id="fraud-actions-panel" class="mt-6 space-y-2 hidden">
                     <p class="text-lg font-bold text-red-400">Required Action</p>
@@ -521,7 +521,6 @@
             </div>
         </div>
 
-        <!-- Transaction History Modal -->
         <div id="history-modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden">
             <div class="bg-gray-800 p-8 rounded-xl max-w-2xl w-full relative border border-indigo-700">
                 <button id="close-history-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-200">
@@ -534,17 +533,15 @@
                         <p class="text-gray-400">Total Fraudulent: <span id="history-fraud-tx" class="text-red-400"></span></p>
                     </div>
                     <div id="history-list" class="bg-gray-700 p-4 rounded-lg overflow-y-auto max-h-96">
-                        <!-- History items will be injected here -->
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
-        Chart.register(ChartDataLabels);
         document.addEventListener('DOMContentLoaded', () => {
             const mainDashboard = document.getElementById('main-dashboard');
             const chartContainer = document.getElementById('chart-container');
@@ -767,8 +764,6 @@
                 analyzerResults = [];
                 let totalAnalyzed = 0;
                 let totalFrauds = 0;
-                let totalSuspicious = 0;
-                let totalNormal = 0;
                 let totalConfidence = 0;
                 
                 if (analyzerResultsBody) analyzerResultsBody.innerHTML = '';
@@ -791,14 +786,7 @@
                     const receiver = parts[9];
 
                     totalAnalyzed++;
-                    if (fraudStatus === 'risk-high') {
-                        totalFrauds++;
-                    } else if (fraudStatus === 'risk-medium') {
-                        totalSuspicious++;
-                    } else {
-                        totalNormal++;
-                    }
-
+                    if (fraudStatus === 'risk-high') totalFrauds++;
                     totalConfidence += parseFloat(riskScore);
                     
                     const resultItem = document.createElement('tr');
@@ -1728,5 +1716,4 @@
         });
     </script>
 </body>
-
 </html>
