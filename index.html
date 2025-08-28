@@ -152,12 +152,15 @@
 </head>
 <body class="bg-gray-900 text-gray-200">
 
+    <!-- Main Container -->
     <div id="main-dashboard" class="container mx-auto p-6 md:p-10">
+        <!-- Header -->
         <header class="text-center mb-12">
             <h1 class="4xl md:text-5xl font-bold header-bg text-transparent bg-clip-text pb-2">QuantumGuard</h1>
             <p class="text-lg md:text-xl text-gray-400 mt-2">The Future of Fraud Detection</p>
         </header>
 
+        <!-- Threat Intelligence Feed Panel -->
         <div class="card p-4 rounded-xl mb-6">
             <h2 class="text-xl font-bold mb-2 flex items-center">
                 <svg class="w-6 h-6 mr-2 text-red-400" fill="currentColor" viewBox="0 0 20 20">
@@ -175,6 +178,7 @@
             </div>
         </div>
 
+        <!-- Mode Selector -->
         <div class="flex justify-center mb-8 space-x-4">
             <button id="preloaded-data-btn" class="btn bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg">
                 Preloaded Data
@@ -187,8 +191,10 @@
             </button>
         </div>
 
+        <!-- Main Dashboard Grid -->
         <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
+            <!-- Preloaded Data Panels -->
             <div id="preloaded-panels" class="contents">
                 <div class="card p-6 rounded-xl col-span-1">
                     <h2 class="text-xl font-bold mb-4 flex items-center">
@@ -301,6 +307,7 @@
                 </div>
             </div>
 
+            <!-- Real-time Input Panels -->
             <div id="realtime-panels" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
                 <div class="card p-6 rounded-xl col-span-1">
                     <h2 class="text-xl font-bold mb-4 flex items-center">
@@ -374,6 +381,7 @@
                 </div>
             </div>
 
+            <!-- Transcript Analyzer Panels -->
             <div id="analyzer-panels" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
                 <div class="card p-6 rounded-xl col-span-1">
                     <h2 class="text-xl font-bold mb-4 flex items-center">
@@ -540,8 +548,9 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script>
+        Chart.register(ChartDataLabels);
         document.addEventListener('DOMContentLoaded', () => {
             const mainDashboard = document.getElementById('main-dashboard');
             const chartContainer = document.getElementById('chart-container');
@@ -607,6 +616,8 @@
             
             const pieChartCanvas = document.getElementById('pie-chart-canvas');
             const pieChartPlaceholder = document.getElementById('pie-chart-placeholder');
+            const topCountriesList = document.getElementById('top-countries-list');
+
 
             let trendChart;
             let pieChart;
@@ -635,13 +646,21 @@
             let analyzerResults = [];
 
             const locations = [
-                { city: "New York, USA", lat: 40.7128, lon: -74.0060 },
-                { city: "London, UK", lat: 51.5074, lon: -0.1278 },
-                { city: "Tokyo, Japan", lat: 35.6895, lon: 139.6917 },
-                { city: "Sydney, Australia", lat: -33.8688, lon: 151.2093 },
-                { city: "Dubai, UAE", lat: 25.2769, lon: 55.2963 },
-                { city: "Rio de Janeiro, Brazil", lat: -22.9068, lon: -43.1729 },
-                { city: "Lagos, Nigeria", lat: 6.5244, lon: 3.3792 }
+                { city: "New York, USA", country: "USA", lat: 40.7128, lon: -74.0060 },
+                { city: "London, UK", country: "UK", lat: 51.5074, lon: -0.1278 },
+                { city: "Tokyo, Japan", country: "Japan", lat: 35.6895, lon: 139.6917 },
+                { city: "Sydney, Australia", country: "Australia", lat: -33.8688, lon: 151.2093 },
+                { city: "Dubai, UAE", country: "UAE", lat: 25.2769, lon: 55.2963 },
+                { city: "Rio de Janeiro, Brazil", country: "Brazil", lat: -22.9068, lon: -43.1729 },
+                { city: "Lagos, Nigeria", country: "Nigeria", lat: 6.5244, lon: 3.3792 },
+                { city: "Mumbai, India", country: "India", lat: 19.0760, lon: 72.8777 },
+                { city: "Delhi, India", country: "India", lat: 28.7041, lon: 77.1025 },
+                { city: "Bangalore, India", country: "India", lat: 12.9716, lon: 77.5946 },
+                { city: "Shanghai, China", country: "China", lat: 31.2304, lon: 121.4737 },
+                { city: "Berlin, Germany", country: "Germany", lat: 52.5200, lon: 13.4050 },
+                { city: "Cape Town, South Africa", country: "South Africa", lat: -33.9249, lon: 18.4241 },
+                { city: "Mexico City, Mexico", country: "Mexico", lat: 19.4326, lon: -99.1332 },
+                { city: "Toronto, Canada", country: "Canada", lat: 43.6532, lon: -79.3832 }
             ];
             const senderNames = ["Alice Smith", "Bob Johnson", "Charlie Brown", "Diana Prince", "Eddie Van Halen", "Frank Miller", "Grace Hopper", "Ivan Pavlov"];
             const receiverNames = ["GlobalCorp Inc.", "E-Commerce Solutions", "Fintech Innovations", "Tech Ventures", "Local Mart", "Web Services Co."];
@@ -668,6 +687,7 @@
                 const deviceFingerprint = deviceFingerprints[Math.floor(Math.random() * deviceFingerprints.length)];
                 const merchantCategory = merchantCategories[Math.floor(Math.random() * merchantCategories.length)];
                 const userHistoryScore = Math.floor(Math.random() * 50);
+                const location = locations[Math.floor(Math.random() * locations.length)];
 
                 let riskScore;
                 let fraudStatus;
@@ -698,7 +718,7 @@
                     reason: reason,
                     ip: `192.168.1.${Math.floor(Math.random() * 255)}`,
                     device: deviceFingerprint,
-                    location: locations[Math.floor(Math.random() * locations.length)],
+                    location: location,
                     sender: sender,
                     receiver: receiver,
                     paymentMethod: paymentMethod,
@@ -764,6 +784,8 @@
                 analyzerResults = [];
                 let totalAnalyzed = 0;
                 let totalFrauds = 0;
+                let totalSuspicious = 0;
+                let totalNormal = 0;
                 let totalConfidence = 0;
                 
                 if (analyzerResultsBody) analyzerResultsBody.innerHTML = '';
@@ -786,7 +808,14 @@
                     const receiver = parts[9];
 
                     totalAnalyzed++;
-                    if (fraudStatus === 'risk-high') totalFrauds++;
+                    if (fraudStatus === 'risk-high') {
+                        totalFrauds++;
+                    } else if (fraudStatus === 'risk-medium') {
+                        totalSuspicious++;
+                    } else {
+                        totalNormal++;
+                    }
+
                     totalConfidence += parseFloat(riskScore);
                     
                     const resultItem = document.createElement('tr');
@@ -834,6 +863,9 @@
                 if (analyzerSummaryTotal) analyzerSummaryTotal.textContent = totalAnalyzed;
                 if (analyzerSummaryFraud) analyzerSummaryFraud.textContent = totalFrauds;
                 if (analyzerSummaryConfidence) analyzerSummaryConfidence.textContent = `${(totalConfidence / totalAnalyzed).toFixed(2)}%`;
+                
+                const pieChartData = [totalNormal, totalSuspicious, totalFrauds];
+                updatePieChartAnalyzer(pieChartData);
             };
 
 
@@ -881,6 +913,21 @@
                     }
                 }
             };
+            
+            const updatePieChartAnalyzer = (data) => {
+                if (pieChart) {
+                    pieChart.data.datasets[0].data = data;
+                    pieChart.update();
+                    const total = data.reduce((sum, val) => sum + val, 0);
+                    if (total > 0) {
+                        if (pieChartPlaceholder) pieChartPlaceholder.classList.add('hidden');
+                        if (pieChartCanvas) pieChartCanvas.classList.remove('hidden');
+                    } else {
+                        if (pieChartPlaceholder) pieChartPlaceholder.classList.remove('hidden');
+                        if (pieChartCanvas) pieChartCanvas.classList.add('hidden');
+                    }
+                }
+            };
 
             const addTransactionToLog = (tx) => {
                 const logItem = document.createElement('div');
@@ -919,6 +966,42 @@
                     updateHighRiskProfilesList();
                 }
             };
+
+            const updateTopCountries = () => {
+                if (topCountriesList) {
+                    const fraudByCountry = transactions
+                        .filter(tx => tx.fraudStatus === 'risk-high' || tx.fraudStatus === 'risk-medium')
+                        .reduce((acc, tx) => {
+                            const country = tx.location.country;
+                            if (!acc[country]) {
+                                acc[country] = { count: 0, amount: 0 };
+                            }
+                            acc[country].count++;
+                            acc[country].amount += parseFloat(tx.amount);
+                            return acc;
+                        }, {});
+
+                    const sortedCountries = Object.keys(fraudByCountry).sort((a, b) => fraudByCountry[b].count - fraudByCountry[a].count);
+                    
+                    topCountriesList.innerHTML = '';
+                    if (sortedCountries.length === 0) {
+                        topCountriesList.innerHTML = `<p class="text-gray-500">No fraud detected yet.</p>`;
+                        return;
+                    }
+
+                    sortedCountries.slice(0, 5).forEach((country, index) => {
+                        const countryData = fraudByCountry[country];
+                        const item = document.createElement('div');
+                        item.className = 'py-2 border-b border-gray-700 last:border-0';
+                        item.innerHTML = `
+                            <p class="font-bold text-gray-300">${index + 1}. ${country}</p>
+                            <p class="text-xs text-gray-400">${countryData.count} frauds | Total: $${countryData.amount.toFixed(2)}</p>
+                        `;
+                        topCountriesList.appendChild(item);
+                    });
+                }
+            };
+
 
             const updateHighRiskProfilesList = () => {
                 if (highRiskProfilesList) {
@@ -1043,6 +1126,7 @@
                     addTransactionToLog(newTx);
                     updateStats();
                     updatePieChart();
+                    updateTopCountries();
 
                     generationLoop();
                 }, 200);
