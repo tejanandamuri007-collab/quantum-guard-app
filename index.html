@@ -33,12 +33,12 @@
         .btn:hover {
             transform: scale(1.05);
         }
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .animate-spin {
+            animation: spin 1s linear infinite;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .5; }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .modal {
             background-color: rgba(0, 0, 0, 0.75);
@@ -68,27 +68,6 @@
         .dot:hover {
             transform: scale(2);
             z-index: 10;
-        }
-        #map-container {
-            width: 100%;
-            height: 250px;
-            background-color: #111827;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            position: relative;
-        }
-        #map-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-        #map-pin {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            transform: translate(-50%, -100%);
-            z-index: 1;
         }
         #transaction-log {
             max-height: 300px;
@@ -156,7 +135,7 @@
     <div id="main-dashboard" class="container mx-auto p-6 md:p-10">
         <!-- Header -->
         <header class="text-center mb-12">
-            <h1 class="4xl md:text-5xl font-bold header-bg text-transparent bg-clip-text pb-2">QuantumGuard</h1>
+            <h1 class="text-4xl md:text-5xl font-bold header-bg text-transparent bg-clip-text pb-2">QuantumGuard</h1>
             <p class="text-lg md:text-xl text-gray-400 mt-2">The Future of Fraud Detection</p>
         </header>
 
@@ -182,9 +161,6 @@
         <div class="flex justify-center mb-8 space-x-4">
             <button id="preloaded-data-btn" class="btn bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg">
                 Preloaded Data
-            </button>
-            <button id="realtime-input-btn" class="btn bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg">
-                Real-time Input
             </button>
             <button id="transcript-analyzer-btn" class="btn bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg">
                 Transcript Analyzer
@@ -308,7 +284,7 @@
             </div>
 
             <!-- Real-time Input Panels -->
-            <div id="realtime-panels" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
+            <div id="realtime-panels" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
                 <div class="card p-6 rounded-xl col-span-1">
                     <h2 class="text-xl font-bold mb-4 flex items-center">
                         <svg class="w-6 h-6 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
@@ -382,7 +358,7 @@
             </div>
 
             <!-- Transcript Analyzer Panels -->
-            <div id="analyzer-panels" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
+            <div id="analyzer-panels" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
                 <div class="card p-6 rounded-xl col-span-1">
                     <h2 class="text-xl font-bold mb-4 flex items-center">
                         <svg class="w-6 h-6 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
@@ -406,8 +382,8 @@
                             <svg class="w-6 h-6 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 12a2 2 0 100-4 2 2 0 000 4z" stroke-width="1.5"></path>
                                 <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            Analysis Results
+                        </svg>
+                        Analysis Results
                         </h3>
                         <div class="overflow-x-auto rounded-lg bg-gray-800 p-4">
                             <table class="w-full text-sm text-left text-gray-400">
@@ -506,7 +482,7 @@
                 <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
-                <h3 class="2xl font-bold mb-4 text-blue-300">Transaction Details</h3>
+                <h3 class="text-2xl font-bold mb-4 text-blue-300">Transaction Details</h3>
                 <div id="modal-content" class="space-y-3 text-gray-400">
                     </div>
 
@@ -534,7 +510,7 @@
                 <button id="close-history-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
-                <h3 class="2xl font-bold mb-4 text-blue-300">Transaction History for <span id="history-sender-name"></span></h3>
+                <h3 class="text-2xl font-bold mb-4 text-blue-300">Transaction History for <span id="history-sender-name"></span></h3>
                 <div class="space-y-4">
                     <div class="bg-gray-700 p-4 rounded-lg">
                         <p class="text-gray-400">Total Transactions: <span id="history-total-tx"></span></p>
@@ -550,13 +526,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script>
+        // Register the data labels plugin globally
         Chart.register(ChartDataLabels);
+
+        // This block of code will run after the DOM is fully loaded.
         document.addEventListener('DOMContentLoaded', () => {
-            const mainDashboard = document.getElementById('main-dashboard');
+            // Get all the necessary DOM elements.
             const chartContainer = document.getElementById('chart-container');
-            const totalTransactionsEl = document.getElementById('total-transactions');
-            const fraudCountEl = document.getElementById('fraud-count');
-            const normalCountEl = document.getElementById('normal-count');
             const startDetectionBtn = document.getElementById('start-detection-btn');
             const stopDetectionBtn = document.getElementById('stop-detection-btn');
             const resetBtn = document.getElementById('reset-btn');
@@ -582,11 +558,12 @@
             const realtimePanels = document.getElementById('realtime-panels');
             const analyzerPanels = document.getElementById('analyzer-panels');
             
-            const inputAmount = document.getElementById('input-amount');
-            const inputTime = document.getElementById('input-time');
-            const inputLocation = document.getElementById('input-location');
-            const submitTransactionBtn = document.getElementById('submit-transaction-btn');
-            const liveResultsTable = document.getElementById('live-results-table');
+            // NOTE: Removed references to real-time input fields and button
+            // const inputAmount = document.getElementById('input-amount');
+            // const inputTime = document.getElementById('input-time');
+            // const inputLocation = document.getElementById('input-location');
+            // const submitTransactionBtn = document.getElementById('submit-transaction-btn');
+            // const liveResultsTable = document.getElementById('live-results-table');
             const trendChartCanvas = document.getElementById('trend-chart');
             const fileName = document.getElementById('file-name');
 
@@ -616,12 +593,12 @@
             
             const pieChartCanvas = document.getElementById('pie-chart-canvas');
             const pieChartPlaceholder = document.getElementById('pie-chart-placeholder');
-            const topCountriesList = document.getElementById('top-countries-list');
-
+            
 
             let trendChart;
             let pieChart;
             
+            // Function to handle chart resizing
             const updateChartSize = () => {
                 if (chartContainer) {
                     const width = chartContainer.offsetWidth;
@@ -637,6 +614,7 @@
                 drawDots();
             });
 
+            // Store transaction data
             const transactions = [];
             let isGenerating = false;
             let currentTx = null;
@@ -645,6 +623,7 @@
             let highRiskProfiles = {};
             let analyzerResults = [];
 
+            // Mock data for transactions
             const locations = [
                 { city: "New York, USA", country: "USA", lat: 40.7128, lon: -74.0060 },
                 { city: "London, UK", country: "UK", lat: 51.5074, lon: -0.1278 },
@@ -668,6 +647,7 @@
             const deviceFingerprints = ["Mobile", "Desktop", "ATM", "POS Machine"];
             const merchantCategories = ["Shopping", "Gambling", "Travel", "Crypto"];
 
+            // Renders all dots on the anomaly map
             const drawDots = () => {
                 if (chartContainer) {
                     chartContainer.innerHTML = '';
@@ -676,6 +656,7 @@
                 }
             };
 
+            // Generates a single mock transaction with varying risk scores
             const generateSingleTransaction = () => {
                 const x = Math.random() * width;
                 const y = Math.random() * height;
@@ -707,7 +688,7 @@
                     reason = "Transaction amount and location are consistent with historical user behavior.";
                 }
 
-                const confidence = (Math.random() * (100 - riskScore) + riskScore).toFixed(2);
+                const confidence = (100 - riskScore).toFixed(2);
                 
                 return {
                     id: Date.now(),
@@ -727,58 +708,10 @@
                 };
             };
             
-            const processRealtimeTransaction = (amount, time, location) => {
-                let riskScore = 0;
-                let fraudStatus = "risk-low";
-                let reason = "Transaction parameters are consistent with historical data.";
-                const probability = Math.random();
+            // NOTE: Removed the function for processing real-time input transactions
+            // const processRealtimeTransaction = (amount, time, location) => { ... };
 
-                const parsedAmount = parseFloat(amount);
-                const parsedTime = parseFloat(time);
-
-                if (parsedAmount > 1000) riskScore += 20;
-                if (parsedAmount > 5000) riskScore += 30;
-                if (location.toLowerCase() === 'international') riskScore += 40;
-                if (parsedTime < 6 || parsedTime > 22) riskScore += 20;
-                if (probability > 0.8) riskScore += 10;
-
-                if (riskScore > 70) {
-                    fraudStatus = "risk-high";
-                    reason = `Combined factors of high amount ($${parsedAmount}) and a new international location led to a high risk score.`;
-                } else if (riskScore > 40) {
-                    fraudStatus = "risk-medium";
-                    reason = `Suspiciously high transaction amount ($${parsedAmount}) and unusual time (${parsedTime}hr) for this user.`;
-                } else {
-                    fraudStatus = "risk-low";
-                    reason = `Transaction amount ($${parsedAmount}) and details fall within normal behavioral patterns.`;
-                }
-
-                const sender = senderNames[Math.floor(Math.random() * senderNames.length)];
-                const receiver = receiverNames[Math.floor(Math.random() * receiverNames.length)];
-                
-                const newTx = {
-                    id: Date.now(),
-                    amount: parsedAmount.toFixed(2),
-                    time: `${parsedTime}hr`,
-                    riskScore: riskScore.toFixed(2),
-                    confidence: (100 - riskScore).toFixed(2),
-                    fraudStatus: fraudStatus,
-                    reason: reason,
-                    ip: `192.168.1.${Math.floor(Math.random() * 255)}`,
-                    location: { city: location, lat: locations[0].lat, lon: locations[0].lon },
-                    sender: sender,
-                    receiver: receiver,
-                };
-
-                transactions.push(newTx);
-                transactionCounter++;
-                addTransactionToLog(newTx);
-                updateStats();
-                updateLiveResults(newTx);
-                updateTrendChart(newTx);
-                updatePieChart();
-            };
-
+            // Handles the analysis of an uploaded transcript file.
             const processTranscriptAnalysis = (fileContent) => {
                 const lines = fileContent.trim().split('\n');
                 analyzerResults = [];
@@ -792,7 +725,7 @@
                 
                 const dataLines = lines.slice(1);
 
-                dataLines.forEach((line, index) => {
+                dataLines.forEach((line) => {
                     const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(part => part.trim().replace(/^"|"$/g, ''));
                     if (parts.length < 10) return;
 
@@ -869,22 +802,10 @@
             };
 
 
-            const updateLiveResults = (tx) => {
-                if (liveResultsTable) {
-                    liveResultsTable.innerHTML = '';
-                    const row = document.createElement('tr');
-                    const predictionColor = tx.fraudStatus === 'risk-high' ? 'text-red-400' : 'text-green-400';
-                    const predictionText = tx.fraudStatus === 'risk-high' ? 'Fraudulent' : 'Normal';
-                    row.innerHTML = `
-                        <td class="py-3 px-4">${transactionCounter}</td>
-                        <td class="py-3 px-4">$${tx.amount}</td>
-                        <td class="py-3 px-4 ${predictionColor}">${predictionText}</td>
-                        <td class="py-3 px-4">${(parseFloat(tx.riskScore) / 100).toFixed(2)}</td>
-                    `;
-                    liveResultsTable.appendChild(row);
-                }
-            };
+            // NOTE: Removed the function for updating live results table.
+            // const updateLiveResults = (tx) => { ... };
             
+            // Updates the trend chart with new transaction data.
             const updateTrendChart = (tx) => {
                 if (trendChart) {
                     trendChart.data.labels.push(transactions.length);
@@ -897,6 +818,7 @@
                 }
             };
             
+            // Updates the pie chart based on transaction distribution.
             const updatePieChart = () => {
                 if (pieChart) {
                     const normalCount = transactions.filter(tx => tx.fraudStatus === 'risk-low').length;
@@ -914,6 +836,7 @@
                 }
             };
             
+            // Updates the pie chart for the transcript analyzer mode.
             const updatePieChartAnalyzer = (data) => {
                 if (pieChart) {
                     pieChart.data.datasets[0].data = data;
@@ -929,6 +852,7 @@
                 }
             };
 
+            // Adds a transaction to the log panel.
             const addTransactionToLog = (tx) => {
                 const logItem = document.createElement('div');
                 logItem.className = `log-item ${tx.fraudStatus}-log`;
@@ -967,42 +891,8 @@
                 }
             };
 
-            const updateTopCountries = () => {
-                if (topCountriesList) {
-                    const fraudByCountry = transactions
-                        .filter(tx => tx.fraudStatus === 'risk-high' || tx.fraudStatus === 'risk-medium')
-                        .reduce((acc, tx) => {
-                            const country = tx.location.country;
-                            if (!acc[country]) {
-                                acc[country] = { count: 0, amount: 0 };
-                            }
-                            acc[country].count++;
-                            acc[country].amount += parseFloat(tx.amount);
-                            return acc;
-                        }, {});
 
-                    const sortedCountries = Object.keys(fraudByCountry).sort((a, b) => fraudByCountry[b].count - fraudByCountry[a].count);
-                    
-                    topCountriesList.innerHTML = '';
-                    if (sortedCountries.length === 0) {
-                        topCountriesList.innerHTML = `<p class="text-gray-500">No fraud detected yet.</p>`;
-                        return;
-                    }
-
-                    sortedCountries.slice(0, 5).forEach((country, index) => {
-                        const countryData = fraudByCountry[country];
-                        const item = document.createElement('div');
-                        item.className = 'py-2 border-b border-gray-700 last:border-0';
-                        item.innerHTML = `
-                            <p class="font-bold text-gray-300">${index + 1}. ${country}</p>
-                            <p class="text-xs text-gray-400">${countryData.count} frauds | Total: $${countryData.amount.toFixed(2)}</p>
-                        `;
-                        topCountriesList.appendChild(item);
-                    });
-                }
-            };
-
-
+            // Updates the list of high-risk profiles.
             const updateHighRiskProfilesList = () => {
                 if (highRiskProfilesList) {
                     highRiskProfilesList.innerHTML = '';
@@ -1025,6 +915,7 @@
                 }
             };
 
+            // Displays a modal with the full transaction history for a user.
             const showHistory = (senderName) => {
                 if (historyList) {
                     historyList.innerHTML = '';
@@ -1048,6 +939,7 @@
                 if (historyModal) historyModal.classList.remove('hidden');
             };
             
+            // Shows a floating alert box for important notifications.
             const showAlert = (message) => {
                 if(alertMessage) {
                     alertMessage.textContent = message;
@@ -1060,6 +952,7 @@
                 }
             };
 
+            // Draws a single dot on the anomaly map.
             const drawSingleDot = (tx) => {
                 const dot = document.createElement('div');
                 dot.className = `dot ${tx.fraudStatus}`;
@@ -1073,14 +966,10 @@
                 }
             };
 
+            // Updates all performance metrics and counters on the dashboard.
             const updateStats = () => {
                 totalFraud = transactions.filter(tx => tx.fraudStatus === 'risk-high').length;
-                const normalCount = transactions.length - totalFraud;
                 
-                if (totalTransactionsEl) totalTransactionsEl.textContent = transactions.length;
-                if (fraudCountEl) fraudCountEl.textContent = totalFraud;
-                if (normalCountEl) normalCountEl.textContent = normalCount;
-
                 const avgConfidence = transactions.length > 0 ? (transactions.reduce((sum, tx) => sum + parseFloat(tx.confidence), 0) / transactions.length).toFixed(2) : '0.00';
                 
                 if (metricsFraudEl) metricsFraudEl.textContent = totalFraud;
@@ -1105,6 +994,7 @@
                 if (quantumFPEl) quantumFPEl.textContent = `${quantumFP}% FP`;
             };
 
+            // The main loop for the preloaded data mode simulation.
             const generationLoop = () => {
                 if (!isGenerating) {
                     if (loadingOverlay) loadingOverlay.classList.add('hidden');
@@ -1126,12 +1016,12 @@
                     addTransactionToLog(newTx);
                     updateStats();
                     updatePieChart();
-                    updateTopCountries();
 
                     generationLoop();
                 }, 200);
             };
             
+            // Displays a modal with detailed transaction information.
             const showTransactionDetails = (tx) => {
                 currentTx = tx;
                 const riskStatusText = tx.fraudStatus === 'risk-high' ? 'Confirmed Fraud' : tx.fraudStatus === 'risk-medium' ? 'Suspicious' : 'Normal';
@@ -1162,20 +1052,24 @@
                 if (modal) modal.classList.remove('hidden');
             };
 
+            // Hides the transaction details modal.
             const hideModal = () => {
                 if (modal) modal.classList.add('hidden');
             };
 
+            // Hides the transaction history modal.
             const hideHistoryModal = () => {
                 if (historyModal) historyModal.classList.add('hidden');
             };
 
+            // Enables/disables controls based on user role.
             const updateRoleAccess = () => {
                 const isAdmin = userRoleSelect.value === 'admin';
                 if (resetBtn) resetBtn.disabled = !isAdmin;
                 if (exportLogBtn) exportLogBtn.disabled = !isAdmin;
             };
 
+            // Event listeners for control buttons
             if(startDetectionBtn) {
                 startDetectionBtn.addEventListener('click', () => {
                     if (isGenerating) return;
@@ -1212,11 +1106,12 @@
                     if(transactionLog) transactionLog.innerHTML = "<p class='text-gray-500'>Press 'Start Detection' to begin logging transactions.</p>";
                     
                     if (trendChart) {
-                         trendChart.destroy();
+                           trendChart.destroy();
                     }
                     if (pieChart) {
                         pieChart.destroy();
                     }
+                    // Re-initialize charts to display placeholders
                     if (trendChartCanvas) {
                         const ctx = trendChartCanvas.getContext('2d');
                         trendChart = new Chart(ctx, {
@@ -1298,7 +1193,6 @@
                             }
                         });
                     }
-
                     updateStats();
                     if(startDetectionBtn) startDetectionBtn.classList.remove('hidden');
                     if(stopDetectionBtn) stopDetectionBtn.classList.add('hidden');
@@ -1306,6 +1200,7 @@
                 });
             }
 
+            // Handles the export of the transaction log.
             if(exportLogBtn) {
                 exportLogBtn.addEventListener('click', () => {
                     const csvHeader = ["Transaction ID", "Timestamp", "Amount", "Risk Score", "Reason", "Fraud Status", "IP Address", "Location", "Sender", "Receiver"];
@@ -1336,6 +1231,7 @@
                 });
             }
             
+            // Handles the export of the analyzer results.
             if(exportAnalyzerLogBtn) {
                 exportAnalyzerLogBtn.addEventListener('click', () => {
                     const csvHeader = ["ID", "Amount", "Time", "Prediction", "Risk Score", "Explanation"];
@@ -1362,6 +1258,7 @@
                 });
             }
 
+            // Opens Google Maps to the transaction location.
             if(trackLocationBtn) {
                 trackLocationBtn.addEventListener('click', () => {
                     if (currentTx && currentTx.location) {
@@ -1373,6 +1270,7 @@
                 });
             }
 
+            // Handles action buttons inside the modal.
             if(falsePositiveBtn) {
                 falsePositiveBtn.addEventListener('click', () => {
                     showAlert(`Transaction ${currentTx.id} marked as 'False Positive'`);
@@ -1419,6 +1317,7 @@
                 userRoleSelect.addEventListener('change', updateRoleAccess);
             }
             
+            // Function to switch between dashboard modes
             const switchMode = (mode) => {
                 if (preloadedPanels) {
                     preloadedPanels.classList.add('hidden');
@@ -1435,8 +1334,9 @@
 
                 if (preloadedDataBtn) preloadedDataBtn.classList.add('bg-gray-600');
                 if (preloadedDataBtn) preloadedDataBtn.classList.remove('bg-indigo-600');
-                if (realtimeInputBtn) realtimeInputBtn.classList.add('bg-gray-600');
-                if (realtimeInputBtn) realtimeInputBtn.classList.remove('bg-indigo-600');
+                // NOTE: Removed the button state logic for the real-time input button
+                // if (realtimeInputBtn) realtimeInputBtn.classList.add('bg-gray-600');
+                // if (realtimeInputBtn) realtimeInputBtn.classList.remove('bg-indigo-600');
                 if (transcriptAnalyzerBtn) transcriptAnalyzerBtn.classList.add('bg-gray-600');
                 if (transcriptAnalyzerBtn) transcriptAnalyzerBtn.classList.remove('bg-indigo-600');
 
@@ -1459,111 +1359,7 @@
                     if(transactionLog) transactionLog.innerHTML = "<p class='text-gray-500'>Press 'Start Detection' to begin logging transactions.</p>";
                     updateStats();
                     if (trendChart) {
-                        trendChart.destroy();
-                    }
-                    if (pieChart) {
-                        pieChart.destroy();
-                    }
-                    if (trendChartCanvas) {
-                        const ctx = trendChartCanvas.getContext('2d');
-                        trendChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: [],
-                                datasets: [{
-                                    label: 'P(Fraud)',
-                                    data: [],
-                                    borderColor: 'rgb(255, 99, 132)',
-                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                                    tension: 0.4
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: {
-                                        min: 0,
-                                        max: 1,
-                                        title: {
-                                            display: true,
-                                            text: 'Fraud Probability (P(F))'
-                                        },
-                                        ticks: { color: '#e2e8f0' }
-                                    },
-                                    x: {
-                                        title: {
-                                            display: true,
-                                            text: 'Transaction ID'
-                                        },
-                                        ticks: { color: '#e2e8f0' }
-                                    }
-                                },
-                                plugins: {
-                                    legend: { display: false }
-                                }
-                            }
-                        });
-                    }
-                    if (pieChartCanvas) {
-                        const ctx = pieChartCanvas.getContext('2d');
-                        pieChart = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: {
-                                labels: ['Normal', 'Suspicious', 'Fraud'],
-                                datasets: [{
-                                    data: [0, 0, 0],
-                                    backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
-                                    hoverOffset: 4
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    datalabels: {
-                                        color: '#fff',
-                                        formatter: (value, ctx) => {
-                                            let sum = 0;
-                                            let dataArr = ctx.chart.data.datasets[0].data;
-                                            dataArr.map(data => {
-                                                sum += data;
-                                            });
-                                            let percentage = (value * 100 / sum).toFixed(2) + "%";
-                                            return percentage;
-                                        },
-                                        font: {
-                                            weight: 'bold'
-                                        }
-                                    },
-                                    legend: {
-                                        labels: {
-                                            color: '#e2e8f0'
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                } else if (mode === 'realtime') {
-                    if (realtimePanels) {
-                        realtimePanels.classList.remove('hidden');
-                        realtimePanels.classList.add('grid');
-                    }
-                    if (realtimeInputBtn) realtimeInputBtn.classList.remove('bg-gray-600');
-                    if (realtimeInputBtn) realtimeInputBtn.classList.add('bg-indigo-600');
-                    transactions.length = 0;
-                    transactionCounter = 0;
-                    highRiskProfiles = {};
-                    updateHighRiskProfilesList();
-                    if(chartContainer) {
-                        chartContainer.innerHTML = '';
-                    }
-                    if (liveResultsTable) {
-                         liveResultsTable.innerHTML = `<tr class="text-gray-300"><td class="py-3 px-4">N/A</td><td class="py-3 px-4">N/A</td><td class="py-3 px-4">N/A</td><td class="py-3 px-4">N/A</td></tr>`;
-                    }
-                    if (trendChart) {
-                        trendChart.destroy();
+                           trendChart.destroy();
                     }
                     if (pieChart) {
                         pieChart.destroy();
@@ -1650,6 +1446,8 @@
                         });
                     }
                     updateStats();
+                } else if (mode === 'realtime') {
+                    // NOTE: This entire block is now obsolete and unreachable.
                 } else if (mode === 'analyzer') {
                     if (analyzerPanels) {
                         analyzerPanels.classList.remove('hidden');
@@ -1666,13 +1464,59 @@
                     if (analyzerSummaryTotal) analyzerSummaryTotal.textContent = 0;
                     if (analyzerSummaryFraud) analyzerSummaryFraud.textContent = 0;
                     if (analyzerSummaryConfidence) analyzerSummaryConfidence.textContent = '0%';
+                    if (pieChart) {
+                        pieChart.destroy();
+                    }
+                    if (pieChartCanvas) {
+                        const ctx = pieChartCanvas.getContext('2d');
+                        pieChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Normal', 'Suspicious', 'Fraud'],
+                                datasets: [{
+                                    data: [0, 0, 0],
+                                    backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
+                                    hoverOffset: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    datalabels: {
+                                        color: '#fff',
+                                        formatter: (value, ctx) => {
+                                            let sum = 0;
+                                            let dataArr = ctx.chart.data.datasets[0].data;
+                                            dataArr.map(data => {
+                                                sum += data;
+                                            });
+                                            let percentage = (value * 100 / sum).toFixed(2) + "%";
+                                            return percentage;
+                                        },
+                                        font: {
+                                            weight: 'bold'
+                                        }
+                                    },
+                                    legend: {
+                                        labels: {
+                                            color: '#e2e8f0'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
             };
             
+            // Attaches event listeners to the mode selector buttons.
             if (preloadedDataBtn) preloadedDataBtn.addEventListener('click', () => switchMode('preloaded'));
-            if (realtimeInputBtn) realtimeInputBtn.addEventListener('click', () => switchMode('realtime'));
+            // NOTE: Removed event listener for the real-time input button
+            // if (realtimeInputBtn) realtimeInputBtn.addEventListener('click', () => switchMode('realtime'));
             if (transcriptAnalyzerBtn) transcriptAnalyzerBtn.addEventListener('click', () => switchMode('analyzer'));
 
+            // Event listeners for file upload functionality
             if (uploadBtn) {
                 uploadBtn.addEventListener('click', () => {
                     if (fileInput) {
@@ -1695,21 +1539,12 @@
                 });
             }
             
-            if(submitTransactionBtn) {
-                submitTransactionBtn.addEventListener('click', () => {
-                    const amount = inputAmount.value;
-                    const time = inputTime.value;
-                    const location = inputLocation.value;
-                    
-                    if (!amount || !time || !location) {
-                        showAlert('Please fill in all transaction fields.');
-                        return;
-                    }
-                    
-                    processRealtimeTransaction(amount, time, location);
-                });
-            }
+            // NOTE: Removed event listener and associated logic for real-time transaction submission.
+            // if(submitTransactionBtn) {
+            //     submitTransactionBtn.addEventListener('click', () => { ... });
+            // }
 
+            // Initialize charts and other components on page load.
             if (trendChartCanvas) {
                 const ctx = trendChartCanvas.getContext('2d');
                 trendChart = new Chart(ctx, {
